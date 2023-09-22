@@ -10,8 +10,10 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
-import com.microsoft.windowsazure.messaging.NotificationHub;
+//import com.microsoft.windowsazure.messaging.NotificationHub;
+import com.microsoft.windowsazure.messaging.notificationhubs.NotificationHub;
 
+import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -63,15 +65,17 @@ public class ReactNativeRegistrationIntentService extends JobIntentService {
                             // Also check if the token has been compromised and needs refreshing.
                             if (regID == null || storedToken != token) {
                                 NotificationHub hub = ReactNativeUtil.createNotificationHub(hubName, connectionString,
-                                        ReactNativeRegistrationIntentService.this);
+                                        getApplication());
                                 Log.d(TAG, "NH Registration refreshing with token : " + token);
+                                  regID = "123";
+//                                if (isTemplated) {
+//                                    regID = hub.registerTemplate(
+//                                            token, templateName, template, tags).getRegistrationId();
+//                                } else {
+//                                    regID = hub.register(token, tags).getRegistrationId();
+//                                }
 
-                                if (isTemplated) {
-                                    regID = hub.registerTemplate(
-                                            token, templateName, template, tags).getRegistrationId();
-                                } else {
-                                    regID = hub.register(token, tags).getRegistrationId();
-                                }
+                                NotificationHub.addTags(Arrays.asList(tags));
 
                                 Log.d(TAG, "New NH Registration Successfully - RegId : " + regID);
 
@@ -94,7 +98,7 @@ public class ReactNativeRegistrationIntentService extends JobIntentService {
                                         ReactNativeRegistrationIntentService.this);
                             }
                         } catch (Exception e) {
-                            Log.e(TAG, "Failed to complete token refresh", e);
+                            Log.e(TAG, "Failed to complete token refresh" + e.getMessage(), e);
 
                             event.putExtra(
                                     ReactNativeConstants.KEY_INTENT_EVENT_NAME,

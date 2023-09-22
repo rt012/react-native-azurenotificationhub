@@ -1,5 +1,6 @@
 package com.azure.reactnative.notificationhub;
 
+import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -18,7 +19,7 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
-import com.microsoft.windowsazure.messaging.NotificationHub;
+//import com.microsoft.windowsazure.messaging.NotificationHub;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,6 +32,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import com.microsoft.windowsazure.messaging.notificationhubs.NotificationHub;
 
 import static com.azure.reactnative.notificationhub.ReactNativeConstants.*;
 
@@ -43,8 +45,11 @@ public final class ReactNativeUtil {
         mPool.execute(runnable);
     }
 
-    public static NotificationHub createNotificationHub(String hubName, String connectionString, Context context) {
-        NotificationHub hub = new NotificationHub(hubName, connectionString, context);
+    public static NotificationHub createNotificationHub(String hubName, String connectionString, Application context) {
+      NotificationHub.start(context, hubName, connectionString);
+
+//      NotificationHub hub = new NotificationHub(hubName, connectionString, context);
+      NotificationHub hub = NotificationHub.getInstance();
         return hub;
     }
 

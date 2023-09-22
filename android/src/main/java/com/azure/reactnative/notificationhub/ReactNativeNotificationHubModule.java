@@ -17,7 +17,8 @@ import com.facebook.react.bridge.WritableMap;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
-import com.microsoft.windowsazure.messaging.NotificationHub;
+//import com.microsoft.windowsazure.messaging.NotificationHub;
+import com.microsoft.windowsazure.messaging.notificationhubs.NotificationHub;
 
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -311,9 +312,9 @@ public class ReactNativeNotificationHubModule extends ReactContextBaseJavaModule
             return;
         }
 
-        NotificationHub hub = ReactNativeUtil.createNotificationHub(hubName, connectionString, reactContext);
+        NotificationHub hub = ReactNativeUtil.createNotificationHub(hubName, connectionString, getCurrentActivity().getApplication());
         try {
-            hub.unregister();
+//            hub.unregister();
             notificationHubUtil.setRegistrationID(reactContext, null);
             notificationHubUtil.setUUID(reactContext, null);
             promise.resolve(AZURE_NOTIFICATION_HUB_UNREGISTERED);
@@ -336,9 +337,9 @@ public class ReactNativeNotificationHubModule extends ReactContextBaseJavaModule
             return;
         }
 
-        NotificationHub hub = ReactNativeUtil.createNotificationHub(hubName, connectionString, reactContext);
+        NotificationHub hub = ReactNativeUtil.createNotificationHub(hubName, connectionString, getCurrentActivity().getApplication());
         try {
-            hub.unregisterTemplate(templateName);
+//            hub.unregisterTemplate(templateName);
             notificationHubUtil.setRegistrationID(reactContext, null);
             notificationHubUtil.setUUID(reactContext, null);
             promise.resolve(AZURE_NOTIFICATION_HUB_UNREGISTERED);
